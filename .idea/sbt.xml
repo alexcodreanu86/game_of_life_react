@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ScalaSbtSettings">
+    <option name="customVMPath" value="$USER_HOME$/Work/_git/Applications/portal-site" />
+    <option name="vmParameters" value="-XX:MaxPermSize=768M" />
+  </component>
+</project>
