@@ -13,10 +13,13 @@ class Cell {
       !this.equals(other);
   }
 
-  private equals(other: Cell) {
+  public equals(other: Cell) {
     return this.x === other.x &&
       this.y === other.y;
   }
 }
 
+const copyCell = (cell: Cell) => new Cell(cell.x, cell.y);
+
+export { copyCell }
 export default Cell;
