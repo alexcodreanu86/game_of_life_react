@@ -1,5 +1,5 @@
-import { mergeUniqueCells } from './utility';
 import Cell from './Cell';
+import { mergeUniqueCells } from './utility';
 
 describe('mergeUniqueCells', () => {
   it('merges two empty collections', () => {

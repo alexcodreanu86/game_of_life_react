@@ -3,6 +3,8 @@ import './App.css';
 
 import logo from './logo.svg';
 
+import GameOfLife from './GameOfLife/Components/GameOfLife';
+
 class App extends React.Component {
   public render() {
     return (
@@ -11,9 +13,7 @@ class App extends React.Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <p className="App-intro">
-          Hello There
-        </p>
+        <GameOfLife/>
       </div>
     );
   }
