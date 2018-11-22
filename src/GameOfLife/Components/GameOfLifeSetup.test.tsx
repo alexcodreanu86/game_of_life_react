@@ -1,6 +1,7 @@
 import * as enzyme from 'enzyme';
 import * as React from 'react';
 import GameOfLifeSetup, { GameOfLifeConfig } from './GameOfLifeSetup';
+import Cell from '../Cell';
 
 describe('GameOfLifeSetup', () => {
   const onSetup = jest.fn((config: GameOfLifeConfig) => { return; });
@@ -34,12 +35,12 @@ describe('GameOfLifeSetup', () => {
     worldCells.simulate('change', { currentTarget: { value: inputValue }});
 
     const gameOfLifeSetup = component.instance();
-    expect(gameOfLifeSetup.state.worldCells).toEqual(inputValue);
+    expect(gameOfLifeSetup.state.worldCellsInput).toEqual(inputValue);
   });
 
   it('on submit creates a new world', () => {
     const component = enzyme.shallow<GameOfLifeSetup>(<GameOfLifeSetup onSetup={ onSetup }/>);
-    const newState = { worldSize: 12, worldCells: "(1,1), (3,4)"};
+    const newState = { worldSize: 12, worldCellsInput: "(1,1), (3,4)"};
     component.setState(newState);
     const stopPropagation = jest.fn();
     const preventDefault = jest.fn();
@@ -47,7 +48,7 @@ describe('GameOfLifeSetup', () => {
 
     expect(stopPropagation).toHaveBeenCalled();
     expect(preventDefault).toHaveBeenCalled();
-    expect(onSetup).toHaveBeenCalledWith(newState);
+    expect(onSetup).toHaveBeenCalledWith({ worldSize: 12, worldCells: [new Cell(1, 1), new Cell(3, 4)] });
   });
 
 

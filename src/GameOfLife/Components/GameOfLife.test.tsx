@@ -3,6 +3,7 @@ import * as React from 'react';
 import GameOfLife from './GameOfLife';
 import GameOfLifeRunner from './GameOfLifeRunner';
 import GameOfLifeSetup from './GameOfLifeSetup';
+import Cell from '../Cell';
 
 describe('GameOfLife', () => {
   describe('when initialized', () => {
@@ -22,15 +23,31 @@ describe('GameOfLife', () => {
     it('the runner component is not rendered before setup is complete', () => {
       const gameOfLife = enzyme.shallow(<GameOfLife/>);
 
-      const gameConfig = gameOfLife.find(GameOfLifeRunner);
+      const gameRunner = gameOfLife.find(GameOfLifeRunner);
 
-      expect(gameConfig.length).toBe(0);
+      expect(gameRunner.length).toBe(0);
     });
   });
 
   describe('when setup is complete', () => {
+    const gameOfLife = enzyme.shallow(<GameOfLife/>);
+    const onSetup = gameOfLife.find(GameOfLifeSetup).prop('onSetup');
+    const worldCells = [new Cell(1, 1), new Cell(2, 2), new Cell(3, 3)];
+
+
+    const gofConfig = {
+      worldCells,
+      worldSize: 20
+    };
+    onSetup(gofConfig);
+    const gameOfLifeComponent = (gameOfLife.instance() as GameOfLife);
+
     it('sets the world properties', () => {
-      expect(true).toBe(true);
+      expect(gameOfLifeComponent.state.gameOfLifeConfig).toEqual(gofConfig);
+    });
+
+    it('creates a new world', () => {
+      expect(gameOfLifeComponent.state.world.getCells()).toEqual(worldCells);
     });
   });
 });
