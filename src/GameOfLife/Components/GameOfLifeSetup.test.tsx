@@ -1,7 +1,7 @@
 import * as enzyme from 'enzyme';
 import * as React from 'react';
-import GameOfLifeSetup, { GameOfLifeConfig } from './GameOfLifeSetup';
 import Cell from '../Cell';
+import GameOfLifeSetup, { GameOfLifeConfig } from './GameOfLifeSetup';
 
 describe('GameOfLifeSetup', () => {
   const onSetup = jest.fn((config: GameOfLifeConfig) => { return; });
@@ -50,6 +50,5 @@ describe('GameOfLifeSetup', () => {
     expect(preventDefault).toHaveBeenCalled();
     expect(onSetup).toHaveBeenCalledWith({ worldSize: 12, worldCells: [new Cell(1, 1), new Cell(3, 4)] });
   });
-
 
 });

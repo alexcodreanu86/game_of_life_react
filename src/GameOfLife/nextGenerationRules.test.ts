@@ -68,5 +68,17 @@ describe('nextGenerationRules', () => {
       const containsCenterCell = nextGeneration.filter(nextGenCell => centerCell.equals(nextGenCell)).length === 1;
       expect(containsCenterCell).toBe(true)
     });
+
+    it('cells out of bounds do not survive', () => {
+      const worldCells = [
+        new Cell(10, 10),
+        new Cell(10, 11),
+        new Cell(11, 10),
+        new Cell(11, 11),
+      ];
+
+      const nextGeneration = nextGenerationPopulation(worldCells, 20);
+      expect(nextGeneration).toEqual([new Cell(10, 10)]);
+    });
   })
 });

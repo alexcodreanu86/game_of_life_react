@@ -17,14 +17,14 @@ class GameOfLife extends React.Component<any, GameOfLifeState> {
   public render() {
     return (<>
       <GameOfLifeSetup onSetup={this.onSetup}/>
-      (this.state.gameOfLifeConfig && <p>{this.state.gameOfLifeConfig}</p>)
+      {this.state.gameOfLifeConfig && <p>{JSON.stringify(this.state.gameOfLifeConfig)}</p>}
     </>)
   }
 
   public onSetup = (gameOfLifeConfig: GameOfLifeConfig) => {
     const world = gameOfLifeConfig.worldCells.reduce(
       (buildingWorld, cell) => buildingWorld.addCell(cell),
-      new World()
+      new World([], gameOfLifeConfig.worldSize)
     );
 
     this.setState({ ...this.state, gameOfLifeConfig, world})

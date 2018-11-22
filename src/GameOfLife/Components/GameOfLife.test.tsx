@@ -1,9 +1,9 @@
 import * as enzyme from 'enzyme';
 import * as React from 'react';
+import Cell from '../Cell';
 import GameOfLife from './GameOfLife';
 import GameOfLifeRunner from './GameOfLifeRunner';
 import GameOfLifeSetup from './GameOfLifeSetup';
-import Cell from '../Cell';
 
 describe('GameOfLife', () => {
   describe('when initialized', () => {
@@ -48,6 +48,7 @@ describe('GameOfLife', () => {
 
     it('creates a new world', () => {
       expect(gameOfLifeComponent.state.world.getCells()).toEqual(worldCells);
+      expect(gameOfLifeComponent.state.world.size).toEqual(20);
     });
   });
 });

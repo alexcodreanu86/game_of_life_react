@@ -19,11 +19,12 @@ describe('World', () => {
     it('transitions to the next generation', () => {
       const nextGenPopulation = jest.fn((currentGen: Cell[]) => []);
       const cell = new Cell(0, 0);
-      const world = new World([], nextGenPopulation)
+      const worldSize = 10;
+      const world = new World([], worldSize, nextGenPopulation)
         .addCell(cell)
         .tick();
 
-      expect(nextGenPopulation).toHaveBeenLastCalledWith([cell]);
+      expect(nextGenPopulation).toHaveBeenLastCalledWith([cell], worldSize);
       expect(world.isEmpty()).toBe(true);
     });
   });
@@ -41,5 +42,4 @@ describe('World', () => {
       expect(world.getCells()).toEqual([new Cell(0, 0)]);
     });
   });
-
 });

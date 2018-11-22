@@ -20,9 +20,14 @@ function newlyBornCells(currentPopulation: Cell[]) : Cell[]{
     );
 }
 
-function nextGenerationPopulation(currentPopulation: Cell[]) : Cell[] {
+function nextGenerationPopulation(currentPopulation: Cell[], worldSize: number = 10) : Cell[] {
+  const boundaryCoord = worldSize / 2;
   return getSurvivingCells(currentPopulation)
-    .concat(newlyBornCells(currentPopulation));
+    .concat(newlyBornCells(currentPopulation))
+    .filter(cell =>
+      Math.abs(cell.x) <= boundaryCoord &&
+      Math.abs(cell.y) <= boundaryCoord
+    );
 }
 
 export { nextGenerationPopulation };
