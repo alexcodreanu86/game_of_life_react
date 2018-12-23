@@ -13,6 +13,11 @@ class World {
     return new World(this.cells.concat([cell]), this.size, this.nextGenPopulation);
   }
 
+  public removeCell(cell: Cell): World {
+    const cells = this.cells.filter(worldCell => !worldCell.equals(cell));
+    return new World(cells, this.size, this.nextGenPopulation);
+  }
+
   public tick(): World {
     this.cells = this.nextGenPopulation(this.cells, this.size);
     return this;

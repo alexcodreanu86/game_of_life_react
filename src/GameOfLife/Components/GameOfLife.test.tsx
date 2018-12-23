@@ -1,7 +1,10 @@
 import * as enzyme from 'enzyme';
+import { ShallowWrapper } from 'enzyme';
 import * as React from 'react';
+
 import Cell from '../Cell';
 import GameOfLife from './GameOfLife';
+import { GameOfLifeGrid } from './GameOfLifeGrid';
 import GameOfLifeRunner from './GameOfLifeRunner';
 import GameOfLifeSetup from './GameOfLifeSetup';
 
@@ -30,17 +33,23 @@ describe('GameOfLife', () => {
   });
 
   describe('when setup is complete', () => {
-    const gameOfLife = enzyme.shallow(<GameOfLife/>);
-    const onSetup = gameOfLife.find(GameOfLifeSetup).prop('onSetup');
-    const worldCells = [new Cell(1, 1), new Cell(2, 2), new Cell(3, 3)];
-
-
+    const cell1 = new Cell(1, 1);
+    const cell2 = new Cell(2, 2);
+    const cell3 = new Cell(3, 3);
+    const worldCells = [cell1, cell2, cell3];
     const gofConfig = {
       worldCells,
       worldSize: 20
     };
-    onSetup(gofConfig);
-    const gameOfLifeComponent = (gameOfLife.instance() as GameOfLife);
+    let gameOfLife: ShallowWrapper<React.Component["props"], React.Component["state"], React.Component>;
+    let gameOfLifeComponent: GameOfLife;
+
+    beforeEach(() => {
+      gameOfLife = enzyme.shallow(<GameOfLife/>);
+      const onSetup = gameOfLife.find(GameOfLifeSetup).prop('onSetup');
+      onSetup(gofConfig);
+      gameOfLifeComponent = (gameOfLife.instance() as GameOfLife);
+    });
 
     it('sets the world properties', () => {
       expect(gameOfLifeComponent.state.gameOfLifeConfig).toEqual(gofConfig);
@@ -49,6 +58,28 @@ describe('GameOfLife', () => {
     it('creates a new world', () => {
       expect(gameOfLifeComponent.state.world.getCells()).toEqual(worldCells);
       expect(gameOfLifeComponent.state.world.size).toEqual(20);
+    });
+
+    it('renders the world grid', () => {
+      const grid = gameOfLife.find(GameOfLifeGrid);
+
+      expect(grid.props().size).toEqual(20);
+    });
+
+    it('adds a cell when grid adds cell', () => {
+      const grid = gameOfLife.find(GameOfLifeGrid);
+      const newCell =  new Cell(19,19);
+      grid.props().onAddCell(newCell);
+
+      expect(gameOfLifeComponent.state.world.getCells()).toEqual(worldCells.concat([newCell]));
+    });
+
+    it('removes a cell when grid invokes the removal', () => {
+      const grid = gameOfLife.find(GameOfLifeGrid);
+      grid.props().onKillCell(cell1);
+
+      const liveCells = gameOfLifeComponent.state.world.getCells();
+      expect(liveCells).toEqual([cell2, cell3]);
     });
   });
 });

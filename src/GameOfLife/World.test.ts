@@ -15,6 +15,15 @@ describe('World', () => {
     expect(world.isEmpty()).toBe(false);
   });
 
+  it('removes a live cell', () => {
+    const world = new World()
+      .addCell(new Cell(0, 0));
+
+    const newWorld = world.removeCell(new Cell(0, 0));
+
+    expect(newWorld.isEmpty()).toBe(true);
+  });
+
   describe('on tick', () => {
     it('transitions to the next generation', () => {
       const nextGenPopulation = jest.fn((currentGen: Cell[]) => []);
