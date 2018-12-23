@@ -2,22 +2,59 @@ import * as React from 'react';
 import World from '../World';
 import GameOfLifeSetup, { GameOfLifeConfig } from './GameOfLifeSetup';
 
+import './GameOfLife.css';
+
 interface GameOfLifeState {
   world: World;
   gameOfLifeConfig?: GameOfLifeConfig
+  isGameComplete: boolean
 }
+
+const defaultState = {
+  isGameComplete: false,
+  world: new World(),
+};
 
 class GameOfLife extends React.Component<any, GameOfLifeState> {
   constructor(props: any, state: GameOfLifeState) {
     super(props, state);
-    const world = new World();
-    this.state = { world, gameOfLifeConfig: undefined };
+    this.state = defaultState;
   }
+
 
   public render() {
     return (<>
-      <GameOfLifeSetup onSetup={this.onSetup}/>
+      { !this.state.gameOfLifeConfig && <GameOfLifeSetup onSetup={this.onSetup}/>}
       {this.state.gameOfLifeConfig && <p>{JSON.stringify(this.state.gameOfLifeConfig)}</p>}
+
+      <div className="grid grid5">
+
+        <div className="item alive"/>
+        <div className="item dead"/>
+        <div className="item dead"/>
+        <div className="item dead"/>
+        <div className="item dead"/>
+        <div className="item dead"/>
+        <div className="item alive"/>
+        <div className="item dead"/>
+        <div className="item dead"/>
+        <div className="item dead"/>
+        <div className="item alive"/>
+        <div className="item dead"/>
+        <div className="item dead"/>
+        <div className="item dead"/>
+        <div className="item dead"/>
+        <div className="item dead"/>
+        <div className="item alive"/>
+        <div className="item dead"/>
+        <div className="item dead"/>
+        <div className="item dead"/>
+        <div className="item dead"/>
+        <div className="item alive"/>
+        <div className="item dead"/>
+        <div className="item dead"/>
+        <div className="item dead"/>
+      </div>
     </>)
   }
 
