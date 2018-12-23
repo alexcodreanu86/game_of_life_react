@@ -8,10 +8,10 @@ interface CellComponentProps {
 }
 
 const CellComponent = (props: CellComponentProps) => {
-  console.log(props.isAlive, props.cell);
   const liveStateClass = props.isAlive ? 'alive' : 'dead';
+  const onClick = () => props.onClick(props.cell, props.isAlive);
   return  (<>
-    <div className={`cell ${liveStateClass}`}/>
+    <div className={`cell ${liveStateClass}`} onClick={onClick}/>
   </>);
 };
 

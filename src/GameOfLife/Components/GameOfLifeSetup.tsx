@@ -17,7 +17,7 @@ interface GameOfLifeSetupProps {
 
 const defaultState = {
   worldCellsInput: "(0, 0)",
-  worldSize: 5
+  worldSize: 4
 };
 
 class GameOfLifeSetup extends React.Component<GameOfLifeSetupProps, GameOfLifeSetupState> {
@@ -31,7 +31,7 @@ class GameOfLifeSetup extends React.Component<GameOfLifeSetupProps, GameOfLifeSe
       <form onSubmit={this.onSubmit}>
         <div>
           <label>World size (5-100):</label>
-          <input name="worldSize" type="number" max={100} min={5} value={this.state.worldSize} onChange={this.onSizeChange}/>
+          <input name="worldSize" type="number" max={101} min={4} value={this.state.worldSize} onChange={this.onSizeChange}/>
         </div>
         <div>
           <label>World Cells comma separated tuples of coordinates [i.e. (0, 0), (1,1)]</label>

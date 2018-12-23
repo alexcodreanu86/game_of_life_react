@@ -13,8 +13,8 @@ const GameOfLifeGrid = (props: GameOfLifeGridProps) => {
   const { size } = props;
   const boundary = size / 2;
   const cells = [];
-  for(let x = -boundary; x < boundary; x++) {
-    for(let y = -boundary; y < boundary; y++) {
+  for(let y = boundary - 1; y >= -boundary; y--) {
+    for(let x = -boundary; x < boundary; x++) {
       cells.push(new Cell(x, y));
     }
   }
@@ -40,7 +40,7 @@ const GameOfLifeGrid = (props: GameOfLifeGridProps) => {
   });
 
   return (
-    <div className={`grid${size}`}>
+    <div className={`grid grid${size}`}>
       { cellComponents }
     </div>
   );

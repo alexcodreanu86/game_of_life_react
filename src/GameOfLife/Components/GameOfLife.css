@@ -1,21 +1,39 @@
 .grid {
     width: 80vh;
 }
-.grid5 {
+.grid4 {
     display: grid;
-    grid-template-columns: repeat(5, minmax(8rem, 1fr));
+    grid-template-columns: repeat(4, minmax(0.5rem, 1fr));
     grid-auto-rows: 1fr;
 }
 
-.grid3 {
+.grid8 {
     display: grid;
-    grid-template-columns: repeat(3, minmax(8rem, 1fr));
+    grid-template-columns: repeat(8, minmax(0.5rem, 1fr));
     grid-auto-rows: 1fr;
 }
 
 .grid10 {
     display: grid;
-    grid-template-columns: repeat(3, minmax(8rem, 1fr));
+    grid-template-columns: repeat(10, minmax(1rem, 1fr));
+    grid-auto-rows: 1fr;
+}
+
+.grid20 {
+    display: grid;
+    grid-template-columns: repeat(20, minmax(0.5rem, 1fr));
+    grid-auto-rows: 1fr;
+}
+
+.grid50 {
+    display: grid;
+    grid-template-columns: repeat(50, minmax(0.2rem, 1fr));
+    grid-auto-rows: 1fr;
+}
+
+.grid100 {
+    display: grid;
+    grid-template-columns: repeat(100, minmax(0.1rem, 1fr));
     grid-auto-rows: 1fr;
 }
 

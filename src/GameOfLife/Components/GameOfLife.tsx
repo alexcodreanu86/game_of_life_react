@@ -28,43 +28,21 @@ class GameOfLife extends React.Component<any, GameOfLifeState> {
       { !this.state.gameOfLifeConfig && <GameOfLifeSetup onSetup={this.onSetup}/>}
       {this.state.gameOfLifeConfig && <>
         <p>{JSON.stringify(this.state.gameOfLifeConfig)}</p>
+        <button onClick={this.tick}>Tick</button>
         <GameOfLifeGrid
           size={this.state.gameOfLifeConfig.worldSize}
           liveCells={this.state.world.getCells()}
           onAddCell={this.onAddCell}
           onKillCell={this.onKillCell}/>
-      </>}
-
-      <div className="grid grid5">
-
-        <div className="item alive"/>
-        <div className="item dead"/>
-        <div className="item dead"/>
-        <div className="item dead"/>
-        <div className="item dead"/>
-        <div className="item dead"/>
-        <div className="item alive"/>
-        <div className="item dead"/>
-        <div className="item dead"/>
-        <div className="item dead"/>
-        <div className="item alive"/>
-        <div className="item dead"/>
-        <div className="item dead"/>
-        <div className="item dead"/>
-        <div className="item dead"/>
-        <div className="item dead"/>
-        <div className="item alive"/>
-        <div className="item dead"/>
-        <div className="item dead"/>
-        <div className="item dead"/>
-        <div className="item dead"/>
-        <div className="item alive"/>
-        <div className="item dead"/>
-        <div className="item dead"/>
-        <div className="item dead"/>
-      </div>
+      </>
+      }
     </>)
   }
+
+  public tick = () => {
+    const world =  this.state.world.tick();
+    this.setState({...this.state, world });
+  };
 
   public onSetup = (gameOfLifeConfig: GameOfLifeConfig) => {
     const world = gameOfLifeConfig.worldCells.reduce(
@@ -76,14 +54,13 @@ class GameOfLife extends React.Component<any, GameOfLifeState> {
   };
 
   private onAddCell = (cell: Cell) => {
-    const newWorld = this.state.world.addCell(cell);
-    this.setState({...this.state, world: newWorld });
+    const world = this.state.world.addCell(cell);
+    this.setState({...this.state, world });
   };
 
-
   private onKillCell = (cell: Cell) => {
-    const newWorld = this.state.world.removeCell(cell);
-    this.setState({...this.state, world: newWorld });
+    const world = this.state.world.removeCell(cell);
+    this.setState({...this.state, world });
   }
 }
 
