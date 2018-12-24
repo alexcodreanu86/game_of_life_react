@@ -2,7 +2,7 @@ import * as React from 'react';
 import World from '../World';
 import GameOfLifeSetup, { GameOfLifeConfig } from './GameOfLifeSetup';
 
-import Cell from '../Cell';
+import { CellState } from '../Cell';
 import './GameOfLife.css';
 import { GameOfLifeGrid } from './GameOfLifeGrid';
 
@@ -53,12 +53,12 @@ class GameOfLife extends React.Component<any, GameOfLifeState> {
     this.setState({ ...this.state, gameOfLifeConfig, world})
   };
 
-  private onAddCell = (cell: Cell) => {
+  private onAddCell = (cell: CellState) => {
     const world = this.state.world.addCell(cell);
     this.setState({...this.state, world });
   };
 
-  private onKillCell = (cell: Cell) => {
+  private onKillCell = (cell: CellState) => {
     const world = this.state.world.removeCell(cell);
     this.setState({...this.state, world });
   }

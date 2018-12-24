@@ -1,10 +1,10 @@
 import * as React from 'react';
-import Cell from '../Cell';
+import { CellState } from '../Cell';
 
 interface CellComponentProps {
-  cell: Cell;
+  cell: CellState;
   isAlive: boolean;
-  onClick: (cell: Cell, isAlive: boolean) => void;
+  onClick: (cell: CellState, isAlive: boolean) => void;
 }
 
 const CellComponent = (props: CellComponentProps) => {

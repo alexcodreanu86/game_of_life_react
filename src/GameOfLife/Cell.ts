@@ -1,25 +1,28 @@
 const NEIGHBOR_DISTANCE = 1;
 
-class Cell {
-  constructor(public x: number, public y: number) {}
+interface CellState {
+  x: number;
+  y: number;
+}
 
-  public isNeighbor(other: Cell): boolean {
-    const {x, y} = this;
+const CellBehavior = {
+  copyCell: (cell: CellState) => CellBehavior.new(cell.x, cell.y),
+  equals: (cell: CellState, other: CellState) => {
+    return cell.x === other.x &&
+      cell.y === other.y;
+  },
+
+  isNeighbor: (cell: CellState, other: CellState) => {
+    const {x, y} = cell;
     const neighborOnX = Math.abs(x - other.x) <= NEIGHBOR_DISTANCE;
     const neighborOnY = Math.abs(y - other.y) <= NEIGHBOR_DISTANCE;
 
     return neighborOnX &&
       neighborOnY &&
-      !this.equals(other);
-  }
+      !CellBehavior.equals(cell, other);
+  },
 
-  public equals(other: Cell) {
-    return this.x === other.x &&
-      this.y === other.y;
-  }
-}
+  new: (x: number, y: number) => ({ x, y })
+};
 
-const copyCell = (cell: Cell) => new Cell(cell.x, cell.y);
-
-export { copyCell }
-export default Cell;
+export { CellState, CellBehavior };

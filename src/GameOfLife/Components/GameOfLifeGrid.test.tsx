@@ -1,16 +1,16 @@
 import * as enzyme from 'enzyme';
 import { ShallowWrapper } from 'enzyme';
 import * as React from 'react';
-import Cell from '../Cell';
+import { CellBehavior, CellState } from '../Cell';
 import { CellComponent } from './CellComponent';
 import { GameOfLifeGrid } from './GameOfLifeGrid';
 
 describe('GameOfLifeGrid', () => {
-  const onAddCell = jest.fn((cell: Cell) => console.log('AddCell', cell));
-  const onKillCell = jest.fn((cell: Cell) => console.log('KillCell', cell));
+  const onAddCell = jest.fn((cell: CellState) => console.log('AddCell', cell));
+  const onKillCell = jest.fn((cell: CellState) => console.log('KillCell', cell));
   const size = 4;
   describe('with no live cells', () => {
-    const liveCells: Cell[] = [];
+    const liveCells: CellState[] = [];
 
     const gridProps = {
       liveCells, onAddCell, onKillCell, size
@@ -37,7 +37,7 @@ describe('GameOfLifeGrid', () => {
   });
 
   describe('with live cells', () => {
-    const liveCell = new Cell(0, 0);
+    const liveCell = CellBehavior.new(0, 0);
     const liveCells = [liveCell];
     const gridProps = {
       liveCells, onAddCell, onKillCell, size
@@ -56,7 +56,7 @@ describe('GameOfLifeGrid', () => {
   });
 
   describe('when clicking a cell', () => {
-    const liveCells: Cell[] = [];
+    const liveCells: CellState[] = [];
     const gridProps = { liveCells, onAddCell, onKillCell, size };
 
     const grid = enzyme.shallow(<GameOfLifeGrid {...gridProps} />);

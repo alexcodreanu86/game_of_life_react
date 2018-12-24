@@ -1,12 +1,12 @@
 import * as React from 'react';
-import Cell from '../Cell';
+import { CellBehavior, CellState } from '../Cell';
 import { CellComponent } from './CellComponent';
 
 interface GameOfLifeGridProps {
   size: number;
-  liveCells: Cell[];
-  onAddCell: (cell: Cell) => void;
-  onKillCell: (cell: Cell) => void;
+  liveCells: CellState[];
+  onAddCell: (cell: CellState) => void;
+  onKillCell: (cell: CellState) => void;
 }
 
 const GameOfLifeGrid = (props: GameOfLifeGridProps) => {
@@ -15,11 +15,11 @@ const GameOfLifeGrid = (props: GameOfLifeGridProps) => {
   const cells = [];
   for(let y = boundary - 1; y >= -boundary; y--) {
     for(let x = -boundary; x < boundary; x++) {
-      cells.push(new Cell(x, y));
+      cells.push(CellBehavior.new(x, y));
     }
   }
 
-  const clickedCell = (cell: Cell, isAlive: boolean) => {
+  const clickedCell = (cell: CellState, isAlive: boolean) => {
     if(isAlive) {
       props.onKillCell(cell);
     } else {
@@ -29,7 +29,7 @@ const GameOfLifeGrid = (props: GameOfLifeGridProps) => {
 
   const cellComponents = cells.map((cell, index) => {
     const isCellAlive = props.liveCells
-      .filter(liveCell => liveCell.equals(cell))
+      .filter(liveCell => CellBehavior.equals(liveCell, cell))
       .length > 0;
     return <CellComponent
       cell={cell}

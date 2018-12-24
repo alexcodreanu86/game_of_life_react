@@ -1,4 +1,4 @@
-import Cell from './Cell';
+import { CellBehavior } from './Cell';
 import { nextGenerationPopulation } from './nextGenerationRules';
 
 describe('nextGenerationRules', () => {
@@ -8,77 +8,77 @@ describe('nextGenerationRules', () => {
     });
 
     it('a lonely cell dies in the next generation', () => {
-      const worldCells = [new Cell(0, 0)];
+      const worldCells = [CellBehavior.new(0, 0)];
 
       expect(nextGenerationPopulation(worldCells)).toEqual([]);
     });
 
     it('a cell surrounded by 2 neighbors lives', () => {
-      const centerCell = new Cell(1, 1);
+      const centerCell = CellBehavior.new(1, 1);
       const worldCells = [
-        new Cell(0, 1),
+        CellBehavior.new(0, 1),
         centerCell,
-        new Cell(2, 1)
+        CellBehavior.new(2, 1)
       ];
 
       const nextGeneration = nextGenerationPopulation(worldCells);
-      const containsCenterCell = nextGeneration.filter(nextGenCell => centerCell.equals(nextGenCell)).length === 1;
+      const containsCenterCell = nextGeneration.filter(nextGenCell => CellBehavior.equals(centerCell, nextGenCell)).length === 1;
       expect(containsCenterCell).toBe(true)
     });
 
     it('a cell surrounded by 3 neighbors lives', () => {
-      const centerCell = new Cell(1, 1);
+      const centerCell = CellBehavior.new(1, 1);
       const worldCells = [
-        new Cell(0, 1),
+        CellBehavior.new(0, 1),
         centerCell,
-        new Cell(2, 1),
-        new Cell(1, 2)
+        CellBehavior.new(2, 1),
+        CellBehavior.new(1, 2)
       ];
 
       const nextGeneration = nextGenerationPopulation(worldCells);
-      const containsCenterCell = nextGeneration.filter(nextGenCell => centerCell.equals(nextGenCell)).length === 1;
+      const containsCenterCell = nextGeneration.filter(nextGenCell => CellBehavior.equals(centerCell, nextGenCell)).length === 1;
       expect(containsCenterCell).toBe(true)
     });
 
     it('a cell surrounded by 4 neighbors dies due to overpopulation', () => {
-      const centerCell = new Cell(1, 1);
+      const centerCell = CellBehavior.new(1, 1);
       const worldCells = [
-        new Cell(0, 1),
+        CellBehavior.new(0, 1),
         centerCell,
-        new Cell(2, 1),
-        new Cell(1, 2),
-        new Cell(0, 0)
+        CellBehavior.new(2, 1),
+        CellBehavior.new(1, 2),
+        CellBehavior.new(0, 0)
       ];
 
       const nextGeneration = nextGenerationPopulation(worldCells);
-      const containsCenterCell = nextGeneration.filter(nextGenCell => centerCell.equals(nextGenCell)).length === 1;
+      const containsCenterCell = nextGeneration.filter(nextGenCell => CellBehavior.equals(centerCell, nextGenCell)).length === 1;
       expect(containsCenterCell).toBe(false)
     });
 
     it('a dead cell surrounded by exactly 3 neighbors comes to life', () => {
-      const centerCell = new Cell(1, 1);
+      const centerCell = CellBehavior.new(1, 1);
 
       const worldCells = [
-        new Cell(0, 1),
-        new Cell(2, 1),
-        new Cell(1, 2)
+        CellBehavior.new(0, 1),
+        CellBehavior.new(2, 1),
+        CellBehavior.new(1, 2)
       ];
 
       const nextGeneration = nextGenerationPopulation(worldCells);
-      const containsCenterCell = nextGeneration.filter(nextGenCell => centerCell.equals(nextGenCell)).length === 1;
+      const containsCenterCell = nextGeneration.filter(nextGenCell => CellBehavior.equals(centerCell, nextGenCell)).length === 1;
       expect(containsCenterCell).toBe(true)
     });
 
     it('cells out of bounds do not survive', () => {
       const worldCells = [
-        new Cell(10, 10),
-        new Cell(10, 11),
-        new Cell(11, 10),
-        new Cell(11, 11),
+        CellBehavior.new(10, 10),
+        CellBehavior.new(10, 11),
+        CellBehavior.new(11, 10),
+        CellBehavior.new(11, 11),
       ];
 
       const nextGeneration = nextGenerationPopulation(worldCells, 20);
-      expect(nextGeneration).toEqual([new Cell(10, 10)]);
+      expect(nextGeneration).toEqual([CellBehavior.new(10, 10)]);
     });
   })
 });

@@ -2,7 +2,7 @@ import * as enzyme from 'enzyme';
 import { ShallowWrapper } from 'enzyme';
 import * as React from 'react';
 
-import Cell from '../Cell';
+import { CellBehavior } from '../Cell';
 import GameOfLife from './GameOfLife';
 import { GameOfLifeGrid } from './GameOfLifeGrid';
 import GameOfLifeRunner from './GameOfLifeRunner';
@@ -33,9 +33,9 @@ describe('GameOfLife', () => {
   });
 
   describe('when setup is complete', () => {
-    const cell1 = new Cell(1, 1);
-    const cell2 = new Cell(2, 2);
-    const cell3 = new Cell(3, 3);
+    const cell1 = CellBehavior.new(1, 1);
+    const cell2 = CellBehavior.new(2, 2);
+    const cell3 = CellBehavior.new(3, 3);
     const worldCells = [cell1, cell2, cell3];
     const gofConfig = {
       worldCells,
@@ -68,7 +68,7 @@ describe('GameOfLife', () => {
 
     it('adds a cell when grid adds cell', () => {
       const grid = gameOfLife.find(GameOfLifeGrid);
-      const newCell =  new Cell(19,19);
+      const newCell =  CellBehavior.new(19,19);
       grid.props().onAddCell(newCell);
 
       expect(gameOfLifeComponent.state.world.getCells()).toEqual(worldCells.concat([newCell]));

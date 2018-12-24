@@ -1,6 +1,7 @@
 import * as enzyme from 'enzyme';
 import * as React from 'react';
-import Cell from '../Cell';
+
+import { CellBehavior } from '../Cell';
 import GameOfLifeSetup, { GameOfLifeConfig } from './GameOfLifeSetup';
 
 describe('GameOfLifeSetup', () => {
@@ -48,7 +49,7 @@ describe('GameOfLifeSetup', () => {
 
     expect(stopPropagation).toHaveBeenCalled();
     expect(preventDefault).toHaveBeenCalled();
-    expect(onSetup).toHaveBeenCalledWith({ worldSize: 12, worldCells: [new Cell(1, 1), new Cell(3, 4)] });
+    expect(onSetup).toHaveBeenCalledWith({ worldSize: 12, worldCells: [CellBehavior.new(1, 1), CellBehavior.new(3,  4)] });
   });
 
 });

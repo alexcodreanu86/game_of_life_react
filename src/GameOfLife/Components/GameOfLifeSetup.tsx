@@ -1,9 +1,9 @@
 import * as React from 'react';
-import Cell from '../Cell';
+import { CellBehavior, CellState } from '../Cell';
 
 interface GameOfLifeConfig {
   worldSize: number;
-  worldCells: Cell[];
+  worldCells: CellState[];
 }
 
 interface GameOfLifeSetupState {
@@ -64,7 +64,7 @@ class GameOfLifeSetup extends React.Component<GameOfLifeSetupProps, GameOfLifeSe
     this.props.onSetup({ worldCells, worldSize });
   };
 
-  private generateWorldCells(worldCellsInput: string): Cell[] {
+  private generateWorldCells(worldCellsInput: string): CellState[] {
     return worldCellsInput
       .split(/,(?=\s*\()/)
       .map(coords =>
@@ -75,7 +75,7 @@ class GameOfLifeSetup extends React.Component<GameOfLifeSetupProps, GameOfLifeSe
           .split(',')
           .map(digit => parseInt(digit, 10))
       )
-      .map(coords => new Cell(coords[0], coords[1]));
+      .map(coords => CellBehavior.new(coords[0], coords[1]));
   }
 }
 

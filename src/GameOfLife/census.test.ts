@@ -1,28 +1,28 @@
-import Cell from './Cell';
+import { CellBehavior, CellState } from './Cell';
 import { getAllNeighbors, getAllPotentialNeighbors, getPotentialBabies } from './census';
 
 describe('Census', () => {
   describe('getAllNeighbors', () => {
-    const cell = new Cell(0, 0);
+    const cell = CellBehavior.new(0, 0);
 
     it('returns no neighbors when a world is empty', () => {
-      const allCells: Cell[] = [];
+      const allCells: CellState[] = [];
 
       expect(getAllNeighbors(cell, allCells)).toEqual([]);
     });
 
     it('returns neighbor cells when there are any', () => {
-      const neighbor = new Cell(1, 1);
-      const allCells: Cell[] = [neighbor];
+      const neighbor = CellBehavior.new(1, 1);
+      const allCells: CellState[] = [neighbor];
 
       expect(getAllNeighbors(cell, allCells)).toEqual([neighbor]);
     });
 
     it('returns only neighbors', () => {
-      const neighbor1 = new Cell(1, 1);
-      const neighbor2 = new Cell(0, 1);
-      const distantCell = new Cell(6, 10);
-      const allCells: Cell[] = [neighbor1, neighbor2, cell, distantCell];
+      const neighbor1 =   CellBehavior.new(1, 1);
+      const neighbor2 =   CellBehavior.new(0, 1);
+      const distantCell = CellBehavior.new(6, 10);
+      const allCells: CellState[] = [neighbor1, neighbor2, cell, distantCell];
 
       expect(getAllNeighbors(cell, allCells)).toEqual([neighbor1, neighbor2]);
     });
@@ -30,16 +30,16 @@ describe('Census', () => {
 
   describe('getAllPotentialNeighbors', () => {
     it('returns all neighbors for a given cell', () => {
-      const centerCell = new Cell(1, 1);
+      const centerCell = { x: 1, y: 1 };
       const allPotentialNeighbors = [
-        new Cell(0, 0),
-        new Cell(0, 1),
-        new Cell(0, 2),
-        new Cell(1, 0),
-        new Cell(1, 2),
-        new Cell(2, 0),
-        new Cell(2, 1),
-        new Cell(2, 2),
+        CellBehavior.new(0, 0),
+        CellBehavior.new(0, 1),
+        CellBehavior.new(0, 2),
+        CellBehavior.new(1, 0),
+        CellBehavior.new(1, 2),
+        CellBehavior.new(2, 0),
+        CellBehavior.new(2, 1),
+        CellBehavior.new(2, 2),
       ];
 
       expect(getAllPotentialNeighbors(centerCell)).toEqual(allPotentialNeighbors);
@@ -48,19 +48,19 @@ describe('Census', () => {
 
   describe('getPotentialBabies', () => {
     it('returns neighbors that are not alive yet', () => {
-      const centerCell = new Cell(1, 1);
-      const neighbor = new Cell(0, 1);
+      const centerCell = { x: 1, y: 1 };
+      const neighbor = { x: 0, y: 1 };
       const allPotentialBabies = [
-        new Cell(0, 0),
-        new Cell(0, 2),
-        new Cell(1, 0),
-        new Cell(1, 2),
-        new Cell(2, 0),
-        new Cell(2, 1),
-        new Cell(2, 2),
-        new Cell(-1, 0),
-        new Cell(-1, 1),
-        new Cell(-1, 2),
+        CellBehavior.new(0, 0),
+        CellBehavior.new(0, 2),
+        CellBehavior.new(1, 0),
+        CellBehavior.new(1, 2),
+        CellBehavior.new(2, 0),
+        CellBehavior.new(2, 1),
+        CellBehavior.new(2, 2),
+        CellBehavior.new(-1, 0),
+        CellBehavior.new(-1, 1),
+        CellBehavior.new(-1, 2),
       ];
 
       expect(getPotentialBabies([centerCell, neighbor])).toEqual(allPotentialBabies);
