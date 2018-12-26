@@ -1,31 +1,41 @@
 import { CellBehavior, CellState } from './Cell';
 import { nextGenerationPopulation } from './nextGenerationRules';
 
-class World {
-
-  constructor(private cells: CellState[] = [], public size: number = 3, private nextGenPopulation: ((currentGen: CellState[], worldSize: number) => CellState[]) = nextGenerationPopulation) {}
-
-  public isEmpty(): boolean {
-    return this.cells.length === 0;
-  }
-
-  public addCell(cell: CellState): World {
-    return new World(this.cells.concat([cell]), this.size, this.nextGenPopulation);
-  }
-
-  public removeCell(cell: CellState): World {
-    const cells = this.cells.filter(worldCell => !CellBehavior.equals(worldCell, cell));
-    return new World(cells, this.size, this.nextGenPopulation);
-  }
-
-  public tick(): World {
-    this.cells = this.nextGenPopulation(this.cells, this.size);
-    return this;
-  }
-
-  public getCells(): CellState[] {
-    return this.cells.map(CellBehavior.copyCell);
-  }
+interface WorldState {
+  cells: CellState[];
+  size: number;
 }
 
-export default World;
+const WorldBehaviorFactory = (nextGenPopulation: ((currentGen: CellState[], worldSize: number) => CellState[]) = nextGenerationPopulation) => {
+  const newWorld = (cells: CellState[], size: number) => ({cells, size});
+  const isEmpty = (world: WorldState) => world.cells.length === 0;
+  const addCell = (world: WorldState, cell: CellState) =>
+      newWorld(
+        world.cells.concat([cell]),
+        world.size
+      );
+
+  const removeCell = (world: WorldState, cell: CellState) =>
+    newWorld(
+      world.cells.filter(worldCell => !CellBehavior.equals(worldCell, cell)),
+      world.size
+    );
+  const tick = (world: WorldState) =>
+    newWorld(
+      nextGenPopulation(world.cells, world.size),
+      world.size
+    );
+
+
+  return {
+    addCell,
+    isEmpty,
+    new: (cells: CellState[] = [], size: number = 4) => ({ cells, size }),
+    removeCell,
+    tick
+  }
+};
+
+const WorldBehavior = WorldBehaviorFactory();
+
+export { WorldState, WorldBehavior, WorldBehaviorFactory };

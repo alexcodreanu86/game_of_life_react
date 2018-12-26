@@ -1,27 +1,33 @@
 import { CellBehavior, CellState } from './Cell';
-import World from './World';
+import { WorldBehavior, WorldBehaviorFactory } from './World';
 
 describe('World', () => {
   it('is empty on initialization', () => {
-    const world = new World();
+    const world = WorldBehavior.new();
 
-    expect(world.isEmpty()).toBe(true);
+    expect(WorldBehavior.isEmpty(world)).toBe(true);
   });
 
   it('is not empty after adding a cell', () => {
-    const world = new World()
-      .addCell(CellBehavior.new(0, 0));
+    const world =
+      WorldBehavior.addCell(
+        WorldBehavior.new(),
+        CellBehavior.new(0, 0)
+      );
 
-    expect(world.isEmpty()).toBe(false);
+    expect(WorldBehavior.isEmpty(world)).toBe(false);
   });
 
   it('removes a live cell', () => {
-    const world = new World()
-      .addCell(CellBehavior.new(0, 0));
+    const world =
+      WorldBehavior.addCell(
+        WorldBehavior.new(),
+        CellBehavior.new(0, 0)
+      );
 
-    const newWorld = world.removeCell(CellBehavior.new(0, 0));
+    const newWorld = WorldBehavior.removeCell(world, CellBehavior.new(0, 0));
 
-    expect(newWorld.isEmpty()).toBe(true);
+    expect(WorldBehavior.isEmpty(newWorld)).toBe(true);
   });
 
   describe('on tick', () => {
@@ -29,26 +35,17 @@ describe('World', () => {
       const nextGenPopulation = jest.fn((currentGen: CellState[]) => []);
       const cell = CellBehavior.new(0, 0);
       const worldSize = 10;
-      const world = new World([], worldSize, nextGenPopulation)
-        .addCell(cell)
-        .tick();
+      const testWorldBehavior = WorldBehaviorFactory(nextGenPopulation);
+      const world =
+        testWorldBehavior.addCell(
+          testWorldBehavior.new([], worldSize),
+          cell
+        );
+
+      const newWorld = testWorldBehavior.tick(world);
 
       expect(nextGenPopulation).toHaveBeenLastCalledWith([cell], worldSize);
-      expect(world.isEmpty()).toBe(true);
-    });
-  });
-
-  describe('getCells', () => {
-    it('returns a copy of all cells', () => {
-      const cell = CellBehavior.new(0, 0);
-      const cells = [cell];
-      const world = new World(cells);
-
-      const worldCells = world.getCells();
-
-      worldCells[0].x = 1;
-
-      expect(world.getCells()).toEqual([CellBehavior.new(0, 0)]);
+      expect(testWorldBehavior.isEmpty(newWorld)).toBe(true);
     });
   });
 });

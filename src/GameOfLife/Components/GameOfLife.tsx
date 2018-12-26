@@ -1,20 +1,20 @@
 import * as React from 'react';
-import World from '../World';
-import GameOfLifeSetup, { GameOfLifeConfig } from './GameOfLifeSetup';
+import { WorldBehavior, WorldState } from '../World';
+import { GameOfLifeConfig, GameOfLifeSetup } from './GameOfLifeSetup';
 
-import { CellState } from '../Cell';
+import { CellBehavior, CellState } from '../Cell';
 import './GameOfLife.css';
 import { GameOfLifeGrid } from './GameOfLifeGrid';
 
 interface GameOfLifeState {
-  world: World;
+  world: WorldState;
   gameOfLifeConfig?: GameOfLifeConfig
   isGameComplete: boolean
 }
 
 const defaultState = {
   isGameComplete: false,
-  world: new World(),
+  world: WorldBehavior.addCell(WorldBehavior.new(), CellBehavior.new(0, 0))
 };
 
 class GameOfLife extends React.Component<any, GameOfLifeState> {
@@ -25,13 +25,13 @@ class GameOfLife extends React.Component<any, GameOfLifeState> {
 
   public render() {
     return (<>
-      { !this.state.gameOfLifeConfig && <GameOfLifeSetup onSetup={this.onSetup}/>}
+      <GameOfLifeSetup onChange={this.onChange}/>
+
       {this.state.gameOfLifeConfig && <>
-        <p>{JSON.stringify(this.state.gameOfLifeConfig)}</p>
         <button onClick={this.tick}>Tick</button>
         <GameOfLifeGrid
           size={this.state.gameOfLifeConfig.worldSize}
-          liveCells={this.state.world.getCells()}
+          liveCells={this.state.world.cells}
           onAddCell={this.onAddCell}
           onKillCell={this.onKillCell}/>
       </>
@@ -40,26 +40,23 @@ class GameOfLife extends React.Component<any, GameOfLifeState> {
   }
 
   public tick = () => {
-    const world =  this.state.world.tick();
+    const world =  WorldBehavior.tick(this.state.world);
     this.setState({...this.state, world });
   };
 
-  public onSetup = (gameOfLifeConfig: GameOfLifeConfig) => {
-    const world = gameOfLifeConfig.worldCells.reduce(
-      (buildingWorld, cell) => buildingWorld.addCell(cell),
-      new World([], gameOfLifeConfig.worldSize)
-    );
+  public onChange = (gameOfLifeConfig: GameOfLifeConfig) => {
+    const world = WorldBehavior.new(this.state.world.cells, gameOfLifeConfig.worldSize);
 
     this.setState({ ...this.state, gameOfLifeConfig, world})
   };
 
   private onAddCell = (cell: CellState) => {
-    const world = this.state.world.addCell(cell);
+    const world = WorldBehavior.addCell(this.state.world, cell);
     this.setState({...this.state, world });
   };
 
   private onKillCell = (cell: CellState) => {
-    const world = this.state.world.removeCell(cell);
+    const world = WorldBehavior.removeCell(this.state.world, cell);
     this.setState({...this.state, world });
   }
 }
