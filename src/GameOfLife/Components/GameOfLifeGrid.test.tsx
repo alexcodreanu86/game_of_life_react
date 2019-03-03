@@ -6,8 +6,8 @@ import { CellComponent } from './CellComponent';
 import { GameOfLifeGrid } from './GameOfLifeGrid';
 
 describe('GameOfLifeGrid', () => {
-  const onAddCell = jest.fn((cell: CellState) => console.log('AddCell', cell));
-  const onKillCell = jest.fn((cell: CellState) => console.log('KillCell', cell));
+  const onAddCell = jest.fn((_: CellState) => undefined);
+  const onKillCell = jest.fn((_: CellState) => undefined);
   const size = 4;
   describe('with no live cells', () => {
     const liveCells: CellState[] = [];

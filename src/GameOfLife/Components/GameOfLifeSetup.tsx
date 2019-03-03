@@ -12,13 +12,12 @@ interface GameOfLifeSetupProps {
 const GameOfLifeSetup = (props: GameOfLifeSetupProps) => {
   return <div>
     <div>
-      <label>World size (5-100):</label>
+      <label>World size (5-50):</label>
       <select name="worldSize" defaultValue="4" onChange={onSizeChange(props)}>
         <option value="4">4</option>
         <option value="10">10</option>
         <option value="20">20</option>
         <option value="50">50</option>
-        <option value="100">100</option>
       </select>
     </div>
   </div>;
