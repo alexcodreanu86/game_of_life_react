@@ -7,4 +7,10 @@ function mergeUniqueCells(left: CellState[], right: CellState[]): CellState[] {
   return left.concat(rightUniqueCells);
 }
 
-export { mergeUniqueCells };
+
+type Handler<T, Y> = (t: T) => Y
+const combine = <T, Y, X>(f1: Handler<T, Y>, f2: Handler<Y, X>): Handler<T, X> => {
+  return (arg: T) => f2(f1(arg))
+}
+
+export { mergeUniqueCells, combine };

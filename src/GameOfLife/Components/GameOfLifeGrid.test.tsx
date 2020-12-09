@@ -16,7 +16,7 @@ describe('GameOfLifeGrid', () => {
       liveCells, onAddCell, onKillCell, size
     };
 
-    const grid = enzyme.shallow(<GameOfLifeGrid {...gridProps} />);
+    const grid = enzyme.mount(<GameOfLifeGrid {...gridProps} />);
     it('contains grid element', () => {
       const gridElement = grid.find('.grid4');
       expect(gridElement.length).toEqual(1);
@@ -42,7 +42,7 @@ describe('GameOfLifeGrid', () => {
     const gridProps = {
       liveCells, onAddCell, onKillCell, size
     };
-    const grid = enzyme.shallow(<GameOfLifeGrid {...gridProps}/>);
+    const grid = enzyme.mount(<GameOfLifeGrid {...gridProps}/>);
 
     it('renders live cells too', () => {
       const cells = grid.find(CellComponent);
@@ -59,7 +59,7 @@ describe('GameOfLifeGrid', () => {
     const liveCells: CellState[] = [];
     const gridProps = { liveCells, onAddCell, onKillCell, size };
 
-    const grid = enzyme.shallow(<GameOfLifeGrid {...gridProps} />);
+    const grid = enzyme.mount(<GameOfLifeGrid {...gridProps} />);
     it('executes onAddCell when cell is dead', () => {
       const cellComponent = grid.find(CellComponent)
         .getElements()[0];
