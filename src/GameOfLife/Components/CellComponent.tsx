@@ -7,13 +7,14 @@ interface CellComponentProps {
   onClick: (cell: CellState, isAlive: boolean) => void;
 }
 
-const CellComponent = (props: CellComponentProps) => {
+const CellComponent = React.memo((props: CellComponentProps) => {
   const liveStateClass = props.isAlive ? 'alive' : 'dead';
+  // console.log('rendering cell component')
   const onClick = () => props.onClick(props.cell, props.isAlive);
   return  (<>
     <div className={`cell ${liveStateClass}`} onClick={onClick}/>
   </>);
-};
+});
 
 export {
   CellComponent,

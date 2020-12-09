@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { CellBehavior, CellState } from '../Cell';
 import { CellComponent } from './CellComponent';
 
@@ -10,22 +11,29 @@ interface GameOfLifeGridProps {
 }
 
 const GameOfLifeGrid = (props: GameOfLifeGridProps) => {
+  const { onKillCell, onAddCell } = props
   const { size } = props;
-  const boundary = size / 2;
-  const cells = [];
-  for(let y = boundary - 1; y >= -boundary; y--) {
-    for(let x = -boundary; x < boundary; x++) {
-      cells.push(CellBehavior.new(x, y));
-    }
-  }
+  const [cells, setCells] = useState<CellState[]>([])
 
-  const clickedCell = (cell: CellState, isAlive: boolean) => {
-    if(isAlive) {
-      props.onKillCell(cell);
-    } else {
-      props.onAddCell(cell);
+  useEffect(() => {
+    const boundary = size / 2;
+    const tempCells = []
+    for(let y = boundary - 1; y >= -boundary; y--) {
+      for(let x = -boundary; x < boundary; x++) {
+        tempCells.push(CellBehavior.new(x, y));
+      }
     }
-  };
+    setCells(tempCells)
+  }, [size])
+
+
+  const clickedCell = React.useCallback((cell: CellState, isAlive: boolean) => {
+    if(isAlive) {
+      onKillCell(cell);
+    } else {
+      onAddCell(cell);
+    }
+  }, [onKillCell, onAddCell]);
 
   const cellComponents = cells.map((cell, index) => {
     const isCellAlive = props.liveCells
