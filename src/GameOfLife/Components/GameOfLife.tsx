@@ -14,21 +14,14 @@ import { GameOfLifeConfig, GameOfLifeSetup } from './GameOfLifeSetup';
 const GameOfLife = () => {
   const [state, dispatch] = React.useReducer(gameOfLifeReducer, defaultState)
 
-  const tick = () => {
-    dispatch(calculateNextGenerationAction());
-  };
+  const tick = () => dispatch(calculateNextGenerationAction())
 
-  const onChange = (gameOfLifeConfig: GameOfLifeConfig) => {
-    dispatch(changeConfigAction(gameOfLifeConfig))
-  };
+  const onChange = (gameOfLifeConfig: GameOfLifeConfig) =>
+    dispatch(changeConfigAction(gameOfLifeConfig));
 
-  const onAddCell = (cell: CellState) => {
-    dispatch(addCellAction(cell))
-  };
+  const onAddCell = (cell: CellState) => dispatch(addCellAction(cell))
 
-  const onKillCell = (cell: CellState) => {
-    dispatch(removeCellAction(cell))
-  }
+  const onKillCell = (cell: CellState) => dispatch(removeCellAction(cell))
 
   return (<>
     <GameOfLifeSetup onChange={onChange}/>
