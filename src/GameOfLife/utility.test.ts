@@ -1,4 +1,4 @@
-import { mergeUniqueCells } from './utility';
+import { combine, mergeUniqueCells } from './utility';
 
 describe('mergeUniqueCells', () => {
   it('merges two empty collections', () => {
@@ -25,5 +25,16 @@ describe('mergeUniqueCells', () => {
 
     expect(mergeUniqueCells([cell1, cell2], [cell2, cell3])).toEqual([cell1, cell2, cell3]);
   });
-
 });
+
+describe('combine', () => {
+  it('combines two functions', () => {
+    const trim = (arg: string) => arg.trim()
+    const length = (arg: string) => arg.length
+
+    const trimAndLength = combine(trim, length)
+
+    expect(trimAndLength("  123  ")).toEqual(3)
+    expect(trimAndLength("  a 123 ")).toEqual(5)
+  })
+})

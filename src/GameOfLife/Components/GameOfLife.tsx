@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { CellState } from '../Cell';
+import { combine } from '../utility';
 import gameOfLifeReducer, {
   addCellAction,
   calculateNextGenerationAction,
@@ -9,19 +9,15 @@ import gameOfLifeReducer, {
 } from './game-of-life-reducer';
 import './GameOfLife.css';
 import { GameOfLifeGrid } from './GameOfLifeGrid';
-import { GameOfLifeConfig, GameOfLifeSetup } from './GameOfLifeSetup';
+import { GameOfLifeSetup } from './GameOfLifeSetup';
 
 const GameOfLife = () => {
   const [state, dispatch] = React.useReducer(gameOfLifeReducer, defaultState)
 
-  const tick = () => dispatch(calculateNextGenerationAction())
-
-  const onChange = (gameOfLifeConfig: GameOfLifeConfig) =>
-    dispatch(changeConfigAction(gameOfLifeConfig));
-
-  const onAddCell = (cell: CellState) => dispatch(addCellAction(cell))
-
-  const onKillCell = (cell: CellState) => dispatch(removeCellAction(cell))
+  const tick = combine(calculateNextGenerationAction, dispatch)
+  const onChange = combine(changeConfigAction, dispatch)
+  const onAddCell = combine(addCellAction, dispatch)
+  const onKillCell = combine(removeCellAction, dispatch)
 
   return (<>
     <GameOfLifeSetup onChange={onChange}/>

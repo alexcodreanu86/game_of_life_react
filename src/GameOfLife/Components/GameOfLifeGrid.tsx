@@ -11,8 +11,7 @@ interface GameOfLifeGridProps {
 }
 
 const GameOfLifeGrid = (props: GameOfLifeGridProps) => {
-  const { onKillCell, onAddCell } = props
-  const { size } = props;
+  const { onKillCell, onAddCell, size, liveCells } = props
   const [cells, setCells] = useState<CellState[]>([])
 
   useEffect(() => {
@@ -36,7 +35,7 @@ const GameOfLifeGrid = (props: GameOfLifeGridProps) => {
   }, [onKillCell, onAddCell]);
 
   const cellComponents = cells.map((cell, index) => {
-    const isCellAlive = props.liveCells
+    const isCellAlive = liveCells
       .filter(liveCell => CellBehavior.equals(liveCell, cell))
       .length > 0;
     return <CellComponent
